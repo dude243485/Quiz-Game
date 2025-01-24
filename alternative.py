@@ -8,6 +8,8 @@ from PIL import Image, ImageTk
 from openpyxl import Workbook, load_workbook
 import re
 
+
+
 root = Tk()
 root.title("QuizLark App")
 
@@ -27,6 +29,15 @@ def loginCommand():
     
     #displaying the current login frame
     loginFrame.place(x=0, y=0, relwidth=1, relheight= 1)
+
+
+
+def accountCommand():
+    global accountFrame
+
+    #raise the account frame
+    accountFrame.tkraise()
+    accountFrame.place(x=0, y=0, relwidth=1, relheight=1)
 
 #this is the frame that holds everything on our welcome page
 welcomeFrame = Frame(root, bg="#EDF7F7")
@@ -64,7 +75,7 @@ playAsGuest = Button(myButtons, text="Play As Guest", fg = "white", bg="#1581B4"
 font=("Montserrat Extrabold", 16, "bold"), padx=30, pady=3)
 
 createAccount = Button(myButtons, text="Create Account", fg="white", bg = "#1581B4", 
-font=("Montserrat Extrabold", 16, "bold"), padx=30, pady=3)
+font=("Montserrat Extrabold", 16, "bold"), padx=30, pady=3, command = accountCommand)
 
 login = Button(myButtons, text="Log In", fg="white", bg = "#1581B4",
 font=("Montserrat Extrabold", 16, "bold"), padx=30, pady=3, command= loginCommand)
@@ -211,6 +222,64 @@ fg="white", font=("Montserrat", 16, "bold"), command = onLogin).pack( pady=10, p
 #extra space in between
 Label(formContainer, bg="white" ).pack(pady=5)
 
+#*******************************************************************************************************************************
+#create account page
+
+def onCreateAccount():
+    return
+
+#login frame creation
+
+accountFrame = Frame(root, bg="#EDF7F7")
+accountFormContainer = Label(accountFrame, bg="white", width=600, height=500)
+accountFormContainer.pack(side="right", fill="y", padx=120, pady=120)
+
+#create account greeting
+greetingContainer = Label(accountFrame,bg="#EDF7F7", width= 450, height=500, padx=50, pady=50)
+greetingContainer.pack(side="left", fill="y", pady=120, padx=110)
+
+Label(greetingContainer, text="QuizLark", font= ("Montserrat", 36, "bold"), fg="#1581B4", bg="#EDF7F7").pack(anchor=W)
+Label(greetingContainer, text="Welcome to the best quizzing app out there...", wraplength=380,
+font=("Montserrat", 18, "bold"), fg="black", bg="#EDF7F7", justify="left").pack(anchor=W,padx=10)
+
+#extra space on top
+Label(accountFormContainer, bg="white").pack(pady=10)
+
+#company name
+loginBrandName = Label(accountFormContainer, text= "QuizLark", fg= "#1581B4", bg = "white",
+font=("Montserrat Extrabold",24, "bold"), pady=1).pack(pady=0)
+brandName = Label(accountFormContainer, text= "Login to your account", fg= "black", bg = "white", 
+font=("Montserrat Extrabold",16, "bold" ), pady=1).pack(pady=0)
+
+#extra space in between
+Label(accountFormContainer, bg="white").pack(pady=10)
+
+#username label and entry
+fullnameLabel= Label(accountFormContainer, text="Fullname", font= ("Montserrat", 14), bg="white").pack(anchor=W, padx=40)
+fullnameEntry = Entry(accountFormContainer, width= 30,  bg="#EDF7F7",
+ font=("Montserrat, 14"))
+fullnameEntry.pack(anchor = W, padx=40, pady=10)
+
+
+#username label and entry
+usernameLabel= Label(accountFormContainer, text="username", font= ("Montserrat", 14), bg="white").pack(anchor=W, padx=40)
+usernameEntry = Entry(accountFormContainer, width= 30,  bg="#EDF7F7",
+ font=("Montserrat, 14"))
+usernameEntry.pack(anchor = W, padx=40, pady=10)
+
+#password label and entry
+passwordLabel= Label(accountFormContainer, text="password", font= ("Montserrat", 14), bg="white").pack(anchor=W, padx=40)
+passwordEntry = Entry(accountFormContainer, width= 30,  bg="#EDF7F7",
+ font=("Montserrat, 14"))
+passwordEntry.pack(anchor = W, padx=40, pady=10)
+
+
+#login button
+createAccount = Button(accountFormContainer, text="Create Account", bg="#1581B4", pady=8, width=23,  
+fg="white", font=("Montserrat", 16, "bold"), command = onCreateAccount).pack( pady=10, padx=40)
+
+#extra space in between
+Label(accountFormContainer, bg="white" ).pack(pady=5)
 
 
 
