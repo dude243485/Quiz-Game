@@ -1,8 +1,6 @@
 #note that this color: "#1581B4" is the light blue use in the app
 #while this color: "#EDF7F7" is the dark blue used in the app
 
-
-
 from tkinter import *
 from PIL import Image, ImageTk
 
