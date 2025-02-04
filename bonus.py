@@ -5,7 +5,7 @@ import re
 from tkinter import messagebox
 
 
-def activateGift(root):
+def activateGift(root, userIndex):
     global diamondGift
     global imageList
     global images
@@ -22,9 +22,11 @@ def activateGift(root):
     giftdetails = "Maintain your progress and keep playing after getting a question wrong."
 
     #the gift image
-    diamondGift = Image.open("images/Diamond.png")
+    eliminatePic = Image.open("images/eliminate.png")
+    instantPic = Image.open("images/instant.png")
+    hintPic = Image.open("images/hint.png")
 
-    images = [diamondGift] 
+    images = [eliminatePic, instantPic, hintPic] 
     imageList =[]
 
     #setting image height

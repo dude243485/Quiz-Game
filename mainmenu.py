@@ -10,7 +10,7 @@ from store import storeCreator
 #defining main window for the main menu
 
 
-def menuFunction(root):
+def menuFunction(root, userIndex):
     global gift
     global money
     global xpImage
@@ -55,10 +55,15 @@ def menuFunction(root):
         resized = i.resize((newWidth, myHeight))
         tk_image = ImageTk.PhotoImage(resized)
         imageList.append(tk_image)
+    #get money value
+    def getXp():
+        workbook = load_workbook("users database.xlsx")
+        sheet = workbook.active
+        return sheet[f"I{userIndex}"].value
 
 
     #xp widget programming
-    xpValue = 250000
+    xpValue = getXp()
 
     xpContainer = Label(statusBar,
     bg="#EDF7F7" )
@@ -76,8 +81,14 @@ def menuFunction(root):
     xpAmount.grid(row=0, column=2)
     xpContainer.grid(row=0, column=0, padx=15)
 
+    #get money value
+    def getMoney():
+        workbook = load_workbook("users database.xlsx")
+        sheet = workbook.active
+        return sheet[f"H{userIndex}"].value
+
     #money widget programming
-    moneyValue = 5318008
+    moneyValue = getMoney()
     moneyContainer = Label(statusBar, bg="#EDF7F7")
     moneyContainer.grid(row=0, column=2 )
 
@@ -162,13 +173,8 @@ def menuFunction(root):
     playButton.pack(pady=12)
 
     #categories button 
-    categoriesButton = Button(centerContainer,
-    bg="#1581B4",
-    fg = "white",
-    font= ("Montserrat Extrabold", 26 ),
-    text= "CATEGORIES",
-    width=20)
-    categoriesButton.pack(pady=12)
+    #categoriesButton = Button(centerContainer,bg="#1581B4",fg = "white",font= ("Montserrat Extrabold", 26 ),text= "CATEGORIES",width=20)
+    #categoriesButton.pack(pady=12)
 
     #stats button 
     statsButton = Button(centerContainer,
@@ -189,5 +195,5 @@ def menuFunction(root):
     command = terminate)
     quitButton.pack(pady=12)
 
-    return mainMenuFrame,storeButton
+    return mainMenuFrame,storeButton, playButton
 

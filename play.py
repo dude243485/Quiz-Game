@@ -184,11 +184,10 @@ timerLabel.pack(side="left", padx=50, anchor="center")
 #******************************************************************************************************************************
 #quitting theplay page
 def onQuit(gameOverMsg):
-    print("quit")
     #open mainmenu
 
     #don't change the variable name of this one
-    #openMainMenu()
+    openMainMenu()
     gameOverMsg.destroy()
 
 #how to access gameover from the pause page

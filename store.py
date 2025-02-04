@@ -8,7 +8,7 @@ from functools import partial
 
         
 
-def storeCreator(root, mainMenuFrame):
+def storeCreator(root, mainMenuFrame, userIndex):
 
 
     global saveMePic
@@ -130,7 +130,7 @@ def storeCreator(root, mainMenuFrame):
 
     Workbook = load_workbook("users database.xlsx")
     sheet = Workbook.active
-    save = sheet["D2"].value
+    save = sheet[f"D{userIndex}"].value
 
     #Gift title
     smQuantity = Label(saveMe,
@@ -190,7 +190,7 @@ def storeCreator(root, mainMenuFrame):
     #taking the amount value from the external databases
     Workbook = load_workbook("users database.xlsx")
     sheet = Workbook.active
-    instantAmount = sheet["E2"].value
+    instantAmount = sheet[f"E{userIndex}"].value
 
     #Gift title
     instantQuantity = Label(instant,
@@ -250,7 +250,7 @@ def storeCreator(root, mainMenuFrame):
     #taking the amount value from the external databases
     Workbook = load_workbook("users database.xlsx")
     sheet = Workbook.active
-    eliminateAmount = sheet["F2"].value
+    eliminateAmount = sheet[f"F{userIndex}"].value
 
     #Gift title
     eliminateQuantity = Label(eliminate,
@@ -308,7 +308,7 @@ def storeCreator(root, mainMenuFrame):
     #taking the amount value from the external databases
     Workbook = load_workbook("users database.xlsx")
     sheet = Workbook.active
-    hintAmount = sheet["G2"].value
+    hintAmount = sheet[f"G{userIndex}"].value
 
     #Gift title
     hintQuantity = Label(hint,
