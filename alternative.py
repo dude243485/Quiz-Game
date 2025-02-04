@@ -9,6 +9,7 @@ from openpyxl import Workbook, load_workbook
 import re
 from tkinter import messagebox
 from mainmenu import menuFunction
+from store import storeCreator
 
 
 
@@ -40,9 +41,93 @@ def loginCommand():
     #displaying the current login frame
     loginFrame.place(x=0, y=0, relwidth=1, relheight= 1)
 
+def update(amountInStock, index):
+    #load current value
+    if index == 0:
+        Workbook = load_workbook("users database.xlsx")
+        sheet = Workbook.active
+        save = sheet["D2"].value
+        save = save + 1
+        amountInStock[0].configure(text=f"In-stock : {save}")
+
+        #save changes
+        workbook2 = load_workbook("users database.xlsx")
+        sheet = workbook2.active
+        sheet["D2"] = save
+        workbook2.save("users database.xlsx")
+
+    elif index == 1:
+        Workbook = load_workbook("users database.xlsx")
+        sheet = Workbook.active
+        amount = sheet["E2"].value
+        amount= amount + 1
+        amountInStock[1].configure(text=f"In-stock : {amount}")
+
+        #save changes
+        workbook2 = load_workbook("users database.xlsx")
+        sheet = workbook2.active
+        sheet["E2"] = amount
+        workbook2.save("users database.xlsx")
+
+    elif index == 2:
+        Workbook = load_workbook("users database.xlsx")
+        sheet = Workbook.active
+        amount = sheet["F2"].value
+        amount= amount + 1
+        amountInStock[2].configure(text=f"In-stock : {amount}")
+
+        #save changes
+        workbook2 = load_workbook("users database.xlsx")
+        sheet = workbook2.active
+        sheet["F2"] = amount
+        workbook2.save("users database.xlsx")
+    elif index == 3:
+        Workbook = load_workbook("users database.xlsx")
+        sheet = Workbook.active
+        amount = sheet["G2"].value
+        amount= amount + 1
+        amountInStock[3].configure(text=f"In-stock : {amount}")
+
+        #save changes
+        workbook2 = load_workbook("users database.xlsx")
+        sheet = workbook2.active
+        sheet["G2"] = amount
+        workbook2.save("users database.xlsx")
+
+
+
+def storeCommand():
+    #get the store button and mainmenu frame from the menu function
+    mainMenuFrame, storeButton = menuFunction(root)
+    myStore,amountInStock,buyButtons = storeCreator(root, mainMenuFrame)
+
+    #raise the store
+    myStore.tkraise()
+
+    #assing the command for the store button
+    storeButton.config(command = storeCommand)
+
+    #assign the  command for the buy buttons and label the buttons
+    buyButtons[0].config(command= lambda : update(amountInStock, 0))
+    buyButtons[1].config(command = lambda : update(amountInStock, 1))
+    buyButtons[2].config(command = lambda : update(amountInStock, 2))
+    buyButtons[3].config(command = lambda : update(amountInStock, 3))
+    
+
 
 def openMainMenu():
-    mainMenuFrame = menuFunction(root)
+    
+    mainMenuFrame, storeButton = menuFunction(root)
+    myStore,amountInStock,buyButtons = storeCreator(root, mainMenuFrame)
+    #assing the command for the store button
+    storeButton.config(command = storeCommand)
+
+    #assign the  command for the buy buttons and label the buttons
+    buyButtons[0].config(command= lambda : update(amountInStock, 0))
+    buyButtons[1].config(command = lambda : update(amountInStock, 1))
+    buyButtons[2].config(command = lambda : update(amountInStock, 2))
+    buyButtons[3].config(command = lambda : update(amountInStock, 3))
+
     mainMenuFrame.tkraise()
     mainMenuFrame.place(x=0, y=0, relwidth=1, relheight= 1)
 
@@ -54,7 +139,8 @@ def accountCommand():
     accountFrame.place(x=0, y=0, relwidth=1, relheight=1)
 
 def playAsGuestCommand():
-    mainMenuFrame = menuFunction(root)
+    mainMenuFrame, storeButton = menuFunction(root)
+    storeButton.config(command=storeCommand)
     mainMenuFrame.tkraise()
     mainMenuFrame.place(x=0, y=0, relwidth=1, relheight= 1)
 
@@ -226,6 +312,8 @@ def onLogin():
 
 
     else:
+        messagebox.showwarning("Weak Password", 
+        "Password must contain uppercase, lowercase, special characters and digits!")
         print("Password or username is incorrect")
 
             
@@ -319,20 +407,20 @@ def onCreateAccount():
         messagebox.showwarning("Weak Password", 
         "Password must contain uppercase, lowercase, special characters and digits!")
 
-    
-    userData = [accountUsername, accountPassword, name]
+    else:
+        userData = [accountUsername, accountPassword, name]
 
-    #writing current user data to the external database
-    Dworkbook = load_workbook("users database.xlsx")
-    sheet = Dworkbook.active
-    sheet.append(userData)
+        #writing current user data to the external database
+        Dworkbook = load_workbook("users database.xlsx")
+        sheet = Dworkbook.active
+        sheet.append(userData)
 
-    #save changes
-    Dworkbook.save("users database.xlsx")
-    print("Main menu Accessed")
+        #save changes
+        Dworkbook.save("users database.xlsx")
+        print("Main menu Accessed")
 
-    #open main menu
-    openMainMenu()
+        #open main menu
+        openMainMenu()
 
 #login frame creation
 

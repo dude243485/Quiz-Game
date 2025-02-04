@@ -3,9 +3,13 @@ from PIL import Image, ImageTk
 from openpyxl import Workbook, load_workbook
 import re
 from tkinter import messagebox
+from functools import partial
 
+
+        
 
 def storeCreator(root, mainMenuFrame):
+
 
     global saveMePic
     global eliminatePic
@@ -14,10 +18,13 @@ def storeCreator(root, mainMenuFrame):
     global images 
     global imageList 
     global backButton
+   
 
     #your functions
     def goBack():
         mainMenuFrame.tkraise()
+
+
 
     #create the store frame
     storeFrame = Frame(root, bg="#EDF7F7")
@@ -74,10 +81,16 @@ def storeCreator(root, mainMenuFrame):
     images = [saveMePic,eliminatePic,instantPic,hintPic] 
     imageList =[]
 
-    saveMeQuantity = 9
+    wb = load_workbook("users database.xlsx")
+    sheet = wb["Sheet1"]
+
+    
     instantQuantity =25
     eliminateQuantity = 16
     hintQuantity = 12
+
+    
+    
 
     #setting image height
     for i in images:
@@ -89,91 +102,242 @@ def storeCreator(root, mainMenuFrame):
         tk_image = ImageTk.PhotoImage(resized)
         imageList.append(tk_image)
 
+    
 
-    def itemcreator(container, itemName,itemDetails,itemImage, itemQuantity):
-        #for item name
-        this = Label(container, bg= "white")
-        this.pack(side="left",  padx=15)
+    #for item name
+    saveMe = Frame(centerFrame, bg= "white")
+    #saveMe.grid(row = 0, column = 0, padx=15)
+    saveMe.pack(side="left",  padx=15)
 
-        #space below
-        Label(this, bg= "white").pack(pady=3)
+    #space below
+    Label(saveMe, bg= "white").pack(pady=3)
 
-        Label(this,
-        text= itemName,
-        font= ("Montserrat Extrabold", 24),
-        justify= "center",
-        bg="white",
-        fg="black").pack(pady=5)
+    saveTitle = Label(saveMe,
+    text= "SAVE ME",
+    font= ("Montserrat Extrabold", 24),
+    justify= "center",
+    bg="white",
+    fg="black")
+    saveTitle.pack(pady=5)
 
-        Label(this,
-        text=str(itemDetails),
-        font= ("Montserrat", 10),
-        justify= "center",
-        bg="white",
-        wraplength= 230,
-        fg="black").pack(pady=2)
+    Label(saveMe,
+    text="Maintain your progress and keep playing after getting a question wrong.",
+    font= ("Montserrat", 10),
+    justify= "center",
+    bg="white",
+    wraplength= 230,
+    fg="black").pack(pady=2)
 
-        #Gift title
-        Label(this,
-        text = "In-stock: " + str(itemQuantity),
-        font= ("Montserrat", 16, "bold"),
-        bg="white",
-        fg="#1581B4"
-        ).pack()
+    Workbook = load_workbook("users database.xlsx")
+    sheet = Workbook.active
+    save = sheet["D2"].value
 
-
-        Label(this, 
-        bg ="white",
-        image = itemImage).pack(pady=10)
-
-        
-        
-
-        buyButton = Button(this,
-        bg="#1581B4",
-        fg="white",
-        font=("Montserrat", 14, "bold"),
-        justify="center",
-        text="buy",
-        pady=3,
-        width=18,
-        ).pack(pady=8,padx=20)
-
-        #space below
-        Label(this, bg= "white").pack(pady=2)
-
-
-    #defining the save me label
-    saveMe = itemcreator(centerFrame,
-    "SAVE ME",
-    "Maintain your progress and keep playing after getting a question wrong.",
-    imageList[0],
-    str(saveMeQuantity )
+    #Gift title
+    smQuantity = Label(saveMe,
+    text =f"In-stock: {save}",
+    font= ("Montserrat", 16, "bold"),
+    bg="white",
+    fg="#1581B4"
     )
+    smQuantity.pack()
 
-    #instant Label
-    instant = itemcreator(centerFrame,
-    "INSTANT",
-    "Provides the correct answer to the current question.",
-    imageList[2],
-    str(instantQuantity )
+    
+
+    Label(saveMe, 
+    bg ="white",
+    image = imageList[0]).pack(pady=10)
+
+    saveBuyButton = Button(saveMe,
+    bg="#1581B4",
+    fg="white",
+    font=("Montserrat", 14, "bold"),
+    justify="center",
+    text="buy",
+    pady=3,
+    width=18
+    
     )
+    saveBuyButton.pack(pady=8,padx=20)
 
-    #eliminate Label
-    eliminate = itemcreator(centerFrame,
-    "ELIMINATE",
-    "Eliminates two wrong answers from the current question.",
-    imageList[1],
-    str(eliminateQuantity )
+    #space below
+    Label(saveMe, bg= "white").pack(pady=2)
+    #****************************************************************************************************************************
+    #Instant
+    #for item name
+    instant = Frame(centerFrame, bg= "white")
+    instant.pack(side="left",  padx=15)
+    #instant.grid(row = 0, column = 1, padx=15)
+
+    #space below
+    Label(instant, bg= "white").pack(pady=3)
+
+    instantTitle = Label(instant,
+    text= "INSTANT",
+    font= ("Montserrat Extrabold", 24),
+    justify= "center",
+    bg="white",
+    fg="black")
+    instantTitle.pack(pady=5)
+
+    Label(instant,
+    text= "Provides the correct answer to the current question.",
+    font= ("Montserrat", 10),
+    justify= "center",
+    bg="white",
+    wraplength= 230,
+    fg="black").pack(pady=2)
+
+    #taking the amount value from the external databases
+    Workbook = load_workbook("users database.xlsx")
+    sheet = Workbook.active
+    instantAmount = sheet["E2"].value
+
+    #Gift title
+    instantQuantity = Label(instant,
+    text =f"In-stock: {instantAmount}",
+    font= ("Montserrat", 16, "bold"),
+    bg="white",
+    fg="#1581B4"
     )
+    instantQuantity.pack()
 
-    #hint Label
-    hint = itemcreator(centerFrame,
-    "HINT",
-    "Displays a hint on the current question.",
-    imageList[3],
-    str(hintQuantity )
+    Label(instant, 
+    bg ="white",
+    image = imageList[2]).pack(pady=10)
+
+    instantBuyButton = Button(instant,
+    bg="#1581B4",
+    fg="white",
+    font=("Montserrat", 14, "bold"),
+    justify="center",
+    text="buy",
+    pady=3,
+    width=18
+    
     )
+    instantBuyButton.pack(pady=8,padx=20)
+
+    #space below
+    Label(instant, bg= "white").pack(pady=2)
 
 
-    return storeFrame
+    #**************************************************************************************************************************
+    #Eliminate
+    #for item name
+    eliminate = Frame(centerFrame, bg= "white")
+    eliminate.pack(side="left",  padx=15)
+    #instant.grid(row = 0, column = 1, padx=15)
+
+    #space below
+    Label(eliminate, bg= "white").pack(pady=3)
+
+    eliminateTitle = Label(eliminate,
+    text= "ELIMINATE",
+    font= ("Montserrat Extrabold", 24),
+    justify= "center",
+    bg="white",
+    fg="black")
+    eliminateTitle.pack(pady=5)
+
+    Label(eliminate,
+    text= "Eliminates two wrong answers from the current question.",
+    font= ("Montserrat", 10),
+    justify= "center",
+    bg="white",
+    wraplength= 230,
+    fg="black").pack(pady=2)
+
+    #taking the amount value from the external databases
+    Workbook = load_workbook("users database.xlsx")
+    sheet = Workbook.active
+    eliminateAmount = sheet["F2"].value
+
+    #Gift title
+    eliminateQuantity = Label(eliminate,
+    text =f"In-stock: {eliminateAmount}",
+    font= ("Montserrat", 16, "bold"),
+    bg="white",
+    fg="#1581B4"
+    )
+    eliminateQuantity.pack()
+
+    Label(eliminate, 
+    bg ="white",
+    image = imageList[1]).pack(pady=10)
+
+    eliminateBuyButton = Button(eliminate,
+    bg="#1581B4",
+    fg="white",
+    font=("Montserrat", 14, "bold"),
+    justify="center",
+    text="buy",
+    pady=3,
+    width=18
+    
+    )
+    eliminateBuyButton.pack(pady=8,padx=20)
+
+    #space below
+    Label(eliminate, bg= "white").pack(pady=2)
+    #***************************************************************************************************************************
+     #Eliminate
+    #for item name
+    hint = Frame(centerFrame, bg= "white")
+    hint.pack(side="left",  padx=15)
+    #instant.grid(row = 0, column = 1, padx=15)
+
+    #space below
+    Label(hint, bg= "white").pack(pady=3)
+
+    hintTitle = Label(hint,
+    text= "HINT",
+    font= ("Montserrat Extrabold", 24),
+    justify= "center",
+    bg="white",
+    fg="black")
+    hintTitle.pack(pady=5)
+
+    Label(hint,
+    text= "Displays a hint on the current question.",
+    font= ("Montserrat", 10),
+    justify= "center",
+    bg="white",
+    wraplength= 230,
+    fg="black").pack(pady=2)
+
+    #taking the amount value from the external databases
+    Workbook = load_workbook("users database.xlsx")
+    sheet = Workbook.active
+    hintAmount = sheet["G2"].value
+
+    #Gift title
+    hintQuantity = Label(hint,
+    text =f"In-stock: {hintAmount}",
+    font= ("Montserrat", 16, "bold"),
+    bg="white",
+    fg="#1581B4"
+    )
+    hintQuantity.pack()
+
+    Label(hint, 
+    bg ="white",
+    image = imageList[3]).pack(pady=10)
+
+    hintBuyButton = Button(hint,
+    bg="#1581B4",
+    fg="white",
+    font=("Montserrat", 14, "bold"),
+    justify="center",
+    text="buy",
+    pady=3,
+    width=18
+    
+    )
+    hintBuyButton.pack(pady=8,padx=20)
+
+    #space below
+    Label(hint, bg= "white").pack(pady=2)
+
+    buyButtons = [saveBuyButton, instantBuyButton, eliminateBuyButton, hintBuyButton]
+    amountInStock = [smQuantity, instantQuantity, eliminateQuantity, hintQuantity]
+    return storeFrame, amountInStock, buyButtons

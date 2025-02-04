@@ -27,10 +27,8 @@ def menuFunction(root):
     #Main menu page
     mainMenuFrame = Frame(root, bg="#EDF7F7")
     mainMenuFrame.place(x=0, y=0, relwidth=1, relheight= 1)
-
-    def storeCommand():
-        myStore = storeCreator(root, mainMenuFrame)
-        myStore.tkraise()
+        
+    
 
     statusContain = Label(mainMenuFrame, bg="#EDF7F7")
     statusContain.pack(fill ="x", padx= 15, pady=15 )
@@ -125,7 +123,6 @@ def menuFunction(root):
     text= "store",
     bg="#EDF7F7",
     image=imageList[3],
-    command=storeCommand,
     relief="flat",
     borderwidth=0
     )
@@ -192,5 +189,5 @@ def menuFunction(root):
     command = terminate)
     quitButton.pack(pady=12)
 
-    return mainMenuFrame
+    return mainMenuFrame,storeButton
 
